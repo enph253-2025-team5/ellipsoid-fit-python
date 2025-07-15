@@ -13,3 +13,6 @@ __pycache__/
 !mag_out.txt
 
 .idea/
+
+# virtual environments
+.venv

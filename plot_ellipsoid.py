@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from mpl_stereo import AxesStereo2D, AxesStereo3D, AxesAnaglyph
 from ellipsoid_fit import ellipsoid_fit, ellipsoid_plot, data_regularize
 
 
@@ -22,7 +23,7 @@ def set_axes_equal(ax: plt.Axes):
 if __name__=='__main__':
 
     df = pd.read_csv("double-magnetometer-calibration.csv", header=0)
-    data = np.array([df['X1'], df['Y1'], df['Z1']]).transpose()
+    data = np.array([df['X2'], df['Y2'], df['Z2']]).transpose()
 
 
     data2 = data_regularize(data, divs=8)
@@ -40,8 +41,7 @@ if __name__=='__main__':
     TR = evecs.dot(D).dot(evecs.T)
     data_on_sphere = TR.dot(data_centered_regularized.T).T
 
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+    ax = AxesStereo3D(d=500)
     
     # for direction in (-1, 1):
     #     for point in np.diag(direction * np.max(data) * np.array([1, 1, 1])):
@@ -59,7 +59,6 @@ if __name__=='__main__':
     #ax.plot([r],[0],[0],color='r',marker='o')
     #ax.plot([radii[0]],[0],[0],color='b',marker='o')
     
-    set_axes_equal(ax)
     plt.show()
 
 
