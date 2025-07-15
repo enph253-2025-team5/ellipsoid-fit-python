@@ -1,13 +1,15 @@
 import numpy as np
+import pandas as pd
 from ellipsoid_fit import ellipsoid_fit as ellipsoid_fit, data_regularize
 
 
 if __name__ == '__main__':
 
-    data = np.loadtxt("mag_out.txt")
-    # data2 = data_regularize(data)
+    df = pd.read_csv("double-magnetometer-calibration.csv", header=0)
 
-    center, evecs, radii, v = ellipsoid_fit(data)
+    xyzs = np.array([df['X1'], df['Y1'], df['Z1']]).transpose()
+
+    center, evecs, radii, v = ellipsoid_fit(xyzs)
 
     a, b, c = radii
     r = (a * b * c) ** (1. / 3.)

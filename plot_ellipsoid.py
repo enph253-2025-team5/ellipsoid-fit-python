@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from ellipsoid_fit import ellipsoid_fit, ellipsoid_plot, data_regularize
@@ -19,7 +20,11 @@ def set_axes_equal(ax: plt.Axes):
 
 
 if __name__=='__main__':
-    data = np.loadtxt("mag_out.txt")
+
+    df = pd.read_csv("double-magnetometer-calibration.csv", header=0)
+    data = np.array([df['X1'], df['Y1'], df['Z1']]).transpose()
+
+
     data2 = data_regularize(data, divs=8)
 
     center, evecs, radii, v = ellipsoid_fit(data2)
